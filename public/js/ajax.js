@@ -28,7 +28,8 @@ var Rbac = window.Rbac || {};
             $.ajax({
                 url: params.href, type: _type, data: _data
             }).done(function (data) {
-                if (data.status == 1) {
+              var data = eval("("+data+")");
+                if (data.status == true) {
                     swal({
                         title: _successTitle,
                         type: 'success',
@@ -37,7 +38,7 @@ var Rbac = window.Rbac || {};
                     }, function () {
                         _successFnc()
                     });
-                } else if (data.status == -1) {
+                } else if (data.status == false) {
                     swal(data.msg, '', 'error');
                 } else {
                     _errorFnc()

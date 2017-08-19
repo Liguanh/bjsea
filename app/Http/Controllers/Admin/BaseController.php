@@ -14,7 +14,7 @@ class BaseController extends Controller
         $this->middleware('auth.admin');
 
         Breadcrumbs::register('dashboard', function ($breadcrumbs) {
-            $breadcrumbs->push('Dashboard', route('admin.home'));
+            $breadcrumbs->push('首页', route('admin.home'));
         });
     }
 
@@ -26,6 +26,16 @@ class BaseController extends Controller
 
         return \Auth::guard('admin')->user()->id;
 
+    }
+
+    /**
+     * @desc ajax 返回json格式
+     * @param $data array
+     * @return string
+     */
+    public function ajaxJson($data)
+    {
+        exit(json_encode($data));
     }
 
 }

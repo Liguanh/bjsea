@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-    <title>Rbac</title>
+    <title>{{env('ADMIN_TITLE')}}</title>
 
     @section('css')
         <link href="{{ asset('css/style.default.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
     <div class="leftpanel">
 
         <div class="logopanel">
-            <h1><span>[</span> Rbac <span>]</span></h1>
+            <h3><span>[</span> 管理后台 <span>]</span></h3>
         </div><!-- logopanel -->
 
         <div class="leftpanelinner">
@@ -144,6 +144,7 @@
     <script src="{{ asset('js/custom.js') }}"></script>
 
     {!! Toastr::render() !!}
+    @yield('jsScript')
 @show
 
 </body>

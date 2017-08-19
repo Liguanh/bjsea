@@ -6,9 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ArticleTableSeeder' => $baseDir . '/database/seeds/ArticleTableSeeder.php',
+    'CategoryTableSeeder' => $baseDir . '/database/seeds/CategoryTableSeeder.php',
     'CreateAdminPasswordResetsTable' => $baseDir . '/database/migrations/2016_01_18_071720_create_admin_password_resets_table.php',
     'CreateAdminUsers' => $baseDir . '/database/migrations/2016_01_18_071439_create_admin_users.php',
-    'CreateLoanUserTable' => $baseDir . '/database/migrations/2017_04_17_091419_create_loan_user_table.php',
+    'CreateArticleExtendsTable' => $baseDir . '/database/migrations/2017_07_20_110231_create_article_extends_table.php',
+    'CreateArticleTable' => $baseDir . '/database/migrations/2017_07_20_105923_create_article_table.php',
+    'CreateCategoryTable' => $baseDir . '/database/migrations/2017_07_20_051929_create_category_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
@@ -560,4 +564,5 @@ return array(
     'Tracy\\Logger' => $vendorDir . '/tracy/tracy/src/Tracy/Logger.php',
     'Tracy\\OutputDebugger' => $vendorDir . '/tracy/tracy/src/Tracy/OutputDebugger.php',
     'Zizaco\\Entrust\\MigrationCommand' => $vendorDir . '/zizaco/entrust/src/commands/MigrationCommand.php',
+    'upload' => $vendorDir . '/verot/class.upload.php/src/class.upload.php',
 );

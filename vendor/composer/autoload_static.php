@@ -373,6 +373,13 @@ class ComposerStaticInitcc0ff90e484f629e8bf261f8c8f0ad2f
                 1 => __DIR__ . '/..' . '/xethron/laravel-4-generators/src',
             ),
         ),
+        'U' => 
+        array (
+            'Upload' => 
+            array (
+                0 => __DIR__ . '/..' . '/codeguy/upload/src',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 
@@ -420,9 +427,13 @@ class ComposerStaticInitcc0ff90e484f629e8bf261f8c8f0ad2f
     );
 
     public static $classMap = array (
+        'ArticleTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ArticleTableSeeder.php',
+        'CategoryTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CategoryTableSeeder.php',
         'CreateAdminPasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2016_01_18_071720_create_admin_password_resets_table.php',
         'CreateAdminUsers' => __DIR__ . '/../..' . '/database/migrations/2016_01_18_071439_create_admin_users.php',
-        'CreateLoanUserTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_17_091419_create_loan_user_table.php',
+        'CreateArticleExtendsTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_110231_create_article_extends_table.php',
+        'CreateArticleTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_105923_create_article_table.php',
+        'CreateCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_051929_create_category_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
@@ -974,6 +985,7 @@ class ComposerStaticInitcc0ff90e484f629e8bf261f8c8f0ad2f
         'Tracy\\Logger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Logger.php',
         'Tracy\\OutputDebugger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/OutputDebugger.php',
         'Zizaco\\Entrust\\MigrationCommand' => __DIR__ . '/..' . '/zizaco/entrust/src/commands/MigrationCommand.php',
+        'upload' => __DIR__ . '/..' . '/verot/class.upload.php/src/class.upload.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -7,7 +7,7 @@
 
             <div class="signin-info">
                 <div class="logopanel">
-                    <h1><span>[</span> 债权管理系统 <span>]</span></h1>
+                    <h1><span>[</span> {{env('ADMIN_TITLE')}} <span>]</span></h1>
                 </div><!-- logopanel -->
 
                 <p>

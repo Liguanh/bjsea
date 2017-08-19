@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Xethron\\MigrationsGenerator' => array($vendorDir . '/xethron/migrations-generator/src'),
     'Way\\Generators' => array($vendorDir . '/way/generators/src', $vendorDir . '/xethron/laravel-4-generators/src'),
+    'Upload' => array($vendorDir . '/codeguy/upload/src'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),

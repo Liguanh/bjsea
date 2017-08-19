@@ -756,8 +756,8 @@ strong {
 
 .pageheader .breadcrumb-wrapper {
 	position: absolute;
+    right:23px;
 	top: 23px;
-	right: 25px;
 }
 
 .pageheader .breadcrumb-wrapper .label {
