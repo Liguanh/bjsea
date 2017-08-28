@@ -13,6 +13,7 @@ return array(
     'CreateArticleExtendsTable' => $baseDir . '/database/migrations/2017_07_20_110231_create_article_extends_table.php',
     'CreateArticleTable' => $baseDir . '/database/migrations/2017_07_20_105923_create_article_table.php',
     'CreateCategoryTable' => $baseDir . '/database/migrations/2017_07_20_051929_create_category_table.php',
+    'CreateFriendLinkTable' => $baseDir . '/database/migrations/2017_08_19_132437_create_friend_link_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

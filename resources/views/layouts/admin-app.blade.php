@@ -92,6 +92,7 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-log-in"></i> 网站首页</a>
                                 <li><a href="{{ url('admin/logout ') }}"><i class="glyphicon glyphicon-log-out"></i> 退出</a>
                                 </li>
                             </ul>

@@ -29,16 +29,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['api_auth'], 'namespace' => 'Api', 'prefix' => 'api'], function () {
 
-    //查询用户信息
-    Route::post('getUserInfo', 'LoanUserController@getUserInfo');
-    //批量添加债权及借款人
-    Route::post('batchCreateUserAndCredit', 'LoanUserController@batchCreateUserAndCredit');
-    //发布项目债权
-    Route::post('doPublishCredit', 'LoanUserController@doPublishCredit');
-    //还款通知
-    Route::post('doRefundNotice', 'LoanUserController@doRefundNotice');
-    //满标放款
-    Route::post('makeLoans', 'LoanUserController@makeLoans');
+    
 
 
 
@@ -46,3 +37,7 @@ Route::group(['middleware' => ['api_auth'], 'namespace' => 'Api', 'prefix' => 'a
 
 
 
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

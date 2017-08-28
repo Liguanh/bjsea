@@ -76,6 +76,24 @@ class ArticleModel extends CommonScopeModel
     }
 
     /**
+     * @desc 通过自定义标示获取文章
+     * @param str $flag
+     * @param int $limit
+     * @return array
+     */
+    public static function getArticleByFlag($flag, $limit = 5)
+    {
+
+        return self::select('id','title','little_pic')
+            ->where('flag','like','%'.$flag.'%')
+            ->where('status', self::STATUS_ACTIVE)
+            ->limit($limit)
+            ->orderBy('id', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+    /**
      * @desc 获取文章的自定义属性
      * @return array
      */

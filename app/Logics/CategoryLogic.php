@@ -120,4 +120,23 @@ class CategoryLogic extends BaseLogic
     }
 
 
+    /**
+     * @desc 获取网站栏目菜单信息
+     * @return array
+     */
+    public function getNavList()
+    {
+        $nav = [];
+
+        $category = CategoryModel::getCategoryPid(0);
+
+        foreach ($category as $key=>$value){
+            $nav[$value['id']]['name'] = $value['name'];
+
+            $nav[$value['id']]['son_list']=CategoryModel::getCategoryPid($value['id']);
+        }
+        return $nav;
+    }
+
+
 }

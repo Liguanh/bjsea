@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Pc\Auth;
 
 use App\User;
 use Validator;
@@ -28,7 +28,9 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
+    protected $redirectAfterLogout = '/login';
+    protected $guard = 'web';
 
 
     /**

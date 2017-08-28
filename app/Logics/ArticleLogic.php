@@ -214,4 +214,22 @@ class ArticleLogic extends BaseLogic
 
         return $flag;
     }
+
+    /**
+     * @desc 按照文章自定义属性获取文章列表
+     * @param str $flag
+     * @param int $limit
+     * @return array
+     */
+    public function getArticleByFlag($flag, $limit=5)
+    {
+        if (empty($flag)){
+            return [];
+        }
+
+        $list = ArticleModel::getArticleByFlag($flag, $limit);
+        return $list;
+    }
 }
+
+

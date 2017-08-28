@@ -17,8 +17,8 @@ return [
 
         'PICTURE_WEB_URL'      => env('MODULE_URL'),                                     // 图片服务器地址
         'PICTURE_WEB_URL_HTTPS'=> env('MODULE_URL_HTTPS'),                               // 图片服务器地址HTTPS
-        'ERROR_PICTURE'        => url('/static/images/error-new.png'),        // 错误图片展示
-        'NO_EXISTS_PICTURE'    => url('/static/images/no_exists.jpg'),        // 图片不存在
+       // 'ERROR_PICTURE'        => url('/static/images/error-new.png'),        // 错误图片展示
+       // 'NO_EXISTS_PICTURE'    => url('/static/images/no_exists.jpg'),        // 图片不存在
     ],
 
 

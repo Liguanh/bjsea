@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Pc;
 
 use App\Http\Requests;
+use App\Logics\CategoryLogic;
+use App\Logics\ArticleLogic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class HomeController extends PcController
 {
     /**
      * Create a new controller instance.
@@ -16,6 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         //$this->middleware('auth');
+        parent::__construct();
     }
 
     /**
@@ -25,6 +28,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pc.home');
+        $articleLogic = new ArticleLogic();
+        $user = $this->getUserId();
+
+        //幻灯
+        $slide = $articleLogic->getArticleByFlag('f');
+        //头条
+        $top = $articleLogic->getArticleByFlag('h',11);
+        $attributes = [
+            'slide'  => $slide,
+            'top'    => $top,
+        ];
+
+        return view('pc.index', $attributes);
     }
 }
