@@ -35,9 +35,15 @@ class HomeController extends PcController
         $slide = $articleLogic->getArticleByFlag('f');
         //头条
         $top = $articleLogic->getArticleByFlag('h',11);
+        //首页内容
+        $top = $articleLogic->getArticleByFlag('h',11);
+
+        //赛事信息
+        $match = $articleLogic->getArticleByCategoryIds([20], 7);
         $attributes = [
             'slide'  => $slide,
             'top'    => $top,
+            'match'  => $match,
         ];
 
         return view('pc.index', $attributes);

@@ -230,6 +230,24 @@ class ArticleLogic extends BaseLogic
         $list = ArticleModel::getArticleByFlag($flag, $limit);
         return $list;
     }
+
+    /**
+     * @desc 按照文章的类别获取文章列表
+     * @param array $categoryIds
+     * @param int  $limit
+     * @return array
+     */
+    public function getArticleByCategoryIds($categoryIds, $limit)
+    {
+        if(empty($categoryIds))
+        {
+            return [];
+        }
+
+        $list = ArticleModel::getArticleByCategoryIds($categoryIds, $limit);
+
+        return $list;
+    }
 }
 
 

@@ -89,6 +89,25 @@ class ArticleModel extends CommonScopeModel
             ->where('status', self::STATUS_ACTIVE)
             ->limit($limit)
             ->orderBy('id', 'desc')
+            ->orderBy('sort_num')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * @desc 通过栏目ID获取文章
+     * @param arr $categoryIds
+     * @param int $limit
+     * @return array
+     */
+    public static function getArticleByCategoryIds($categoryIds, $limit = 5)
+    {
+        return self::select('id','title','little_pic', )
+            ->whereIn('category_id', $categoryIds)
+            ->where('status', self::STATUS_ACTIVE)
+            ->limit($limit)
+            ->orderBy('id', 'desc')
+            ->orderBy('sort_num')
             ->get()
             ->toArray();
     }
