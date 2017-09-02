@@ -436,6 +436,7 @@ class ComposerStaticInitcc0ff90e484f629e8bf261f8c8f0ad2f
         'CreateCategoryTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_051929_create_category_table.php',
         'CreateFriendLinkTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_19_132437_create_friend_link_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateUserInfoTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_29_032430_create_user_info_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'EntrustBase' => __DIR__ . '/../..' . '/database/migrations/2016_01_23_031442_entrust_base.php',

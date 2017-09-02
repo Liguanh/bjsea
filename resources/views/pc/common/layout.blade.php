@@ -7,6 +7,7 @@
     <meta name="keywords" content="{{env('WEB_KEYWORDS')}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @section('css')
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all">
         <link href="{{ asset('bjesa/style/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all">
         <link href="{{ asset('bjesa/style/style.css') }}" rel="stylesheet" type="text/css" media="all">
         <link href="{{ asset('bjesa/style/flexslider.css') }}" rel="stylesheet" type="text/css" media="all">

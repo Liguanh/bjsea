@@ -32,6 +32,21 @@ class ToolStr
     }
 
     /**
+     * @param $str
+     * @param $length
+     * @param $hideStr
+     * @return string
+     * @desc 处理长字符串，如地址，超出长度以外的字符用*代替
+     */
+    public static function hideStr($str,$length = 20, $hideStr='***')
+    {
+        $str = self::html2text($str);
+        $strlen = mb_strlen($str, 'utf-8');
+        $str = $strlen < $length ? $str : str_replace(mb_substr($str,$length),$hideStr,$str);
+        return $str;
+    }
+
+    /**
      * @param string $type
      * @param int $length
      * @param string $customStr
@@ -107,5 +122,39 @@ class ToolStr
 
     }
 
-
+    /**
+     * @desc 自定义的html代码过滤函数
+     * @param string $str
+     * @return string
+     */
+	public static function html2text($str){
+		$str = preg_replace("/<style .*?<\/style>/is", "", $str);
+		$str = preg_replace("/<script .*?<\/script>/is", "", $str);
+		$str = preg_replace("/<br \s*\/?\/>/i", "\n", $str);
+		$str = preg_replace("/<\/?p>/i", "\n\n", $str);
+		$str = preg_replace("/<\/?td>/i", "\n", $str);
+		$str = preg_replace("/<\/?div>/i", "\n", $str);
+		$str = preg_replace("/<\/?blockquote>/i", "\n", $str);
+		$str = preg_replace("/<\/?li>/i", "\n", $str);
+		$str = preg_replace("/\&nbsp\;/i", " ", $str);
+		$str = preg_replace("/\&nbsp/i", " ", $str);
+		$str = preg_replace("/\&amp\;/i", "&", $str);
+		$str = preg_replace("/\&amp/i", "&", $str);
+		$str = preg_replace("/\&lt\;/i", "<", $str);
+		$str = preg_replace("/\&lt/i", "<", $str);
+		$str = preg_replace("/\&ldquo\;/i", '"', $str);
+		$str = preg_replace("/\&ldquo/i", '"', $str);
+		$str = preg_replace("/\&lsquo\;/i", "'", $str);
+		$str = preg_replace("/\&lsquo/i", "'", $str);
+		$str = preg_replace("/\&rsquo\;/i", "'", $str);
+		$str = preg_replace("/\&rsquo/i", "'", $str);
+		$str = preg_replace("/\&gt\;/i", ">", $str);
+		$str = preg_replace("/\&gt/i", ">", $str);
+		$str = preg_replace("/\&rdquo\;/i", '"', $str);
+		$str = preg_replace("/\&rdquo/i", '"', $str);
+		$str = strip_tags($str);
+		$str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
+		$str = preg_replace("/\&\#.*?\;/i", "", $str);
+		return $str;
+	}
 }

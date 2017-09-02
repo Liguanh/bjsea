@@ -100,7 +100,7 @@
                                 <td>
                                     <a href="/admin/article/edit/{{$value->id}}" class="btn btn-white"><i class="fa fa-pencil"></i> 编辑</a>
                                     <a class="btn btn-danger article-delete" data-href="{{ route('admin.article.delete',['id'=>$value->id]) }}" ><i class="fa fa-trash-o"></i> 删除</a>
-                                    <a href="/admin/article" class="btn btn-info"><i class="fa fa-info"></i> 文章预览</a>
+                                    <a href="{{url('/article/detail/'.$value->id)}}" target="_blank" class="btn btn-info"><i class="fa fa-info"></i> 文章预览</a>
                                 </td>
                             </tr>
                             @endforeach

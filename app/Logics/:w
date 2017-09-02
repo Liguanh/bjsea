@@ -156,8 +156,10 @@ class CategoryLogic extends BaseLogic
             $nav[$value['id']]['http_url'] = $value['http_url'];
             $nav[$value['id']]['typeLink'] = ($value['is_url']) ? url($value['http_url']) : url('/article/list/'.$value['id']);
 
+            $nav[$value['id']]=$this->formatCategory($value);
             $nav[$value['id']]['son_list']=$this->formatCategory(CategoryModel::getNavByPid($value['id']));
         }
+        dd($nav);
         return $nav;
     }
 

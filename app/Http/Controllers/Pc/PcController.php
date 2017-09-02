@@ -18,6 +18,7 @@ class PcController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
     }
 
     /**
@@ -28,5 +29,6 @@ class PcController extends Controller
     {
         exit(json_encode($data));
     }
+
 
 }

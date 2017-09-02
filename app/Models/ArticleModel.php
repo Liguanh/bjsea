@@ -18,6 +18,28 @@ class ArticleModel extends CommonScopeModel
     protected $table = 'article';
 
 
+    public static $coreArr = [
+        'addArticleHits'  => 10000,
+        ];
+
+    public static function addArticleHits($id)
+    {
+        if (empty($id)){
+            throw new \Exception(sprintf('文章ID',LangModel::getLang('ERROR_IS_EMPTY')), self::getFinalCode('addArticleHits'));
+        }
+
+        $data = [
+            'hits' => \DB::raw('hits + 1 '),
+            ];
+        $result = self::edit($id, $data);
+
+        if (!$result){
+            throw new \Exception(LangModel::getLang('ERROR_COMMON'), self::getFinalCode('addArticleHits'));
+        }
+
+        return $result;
+    }
+/***********************************[文章相关信息的获取]************************************/
     /**
      * @desc 获取管理后台文章列表
      * @param array $data
@@ -36,6 +58,24 @@ class ArticleModel extends CommonScopeModel
     }
 
     /**
+     * @desc 获取前台文章列表按照栏目分类
+     * @param $categoryId int
+     * @param $size
+     * @return array
+     */
+    public static function getArticleByCid($categoryId, $size)
+    {
+        $result = self::select('article.id', 'article.title', 'article.little_pic', 'article.category_id','article.created_at','content','article.hits', 'category.name')
+            ->join('article_extends','article.id','=','article_extends.a_id')
+            ->join('category','article.category_id','=','category.id')
+            ->whereIn('category_id', $categoryId)
+            ->where('article.status',self::STATUS_ACTIVE)
+            ->orderBy('id', 'desc')
+            ->paginate($size)
+            ->toArray();
+        return $result;
+    }
+    /**
      * @desc 格式化搜索条件
      * @param $where
      * @param $obj
@@ -43,7 +83,6 @@ class ArticleModel extends CommonScopeModel
      */
     public static function formatSearchArticle($where, $obj)
     {
-
         if (isset($where['title']) || !empty($where['title'])){
             $obj = $obj->where('title', 'like', '%'.$where['title'].'%');
         }
@@ -69,6 +108,7 @@ class ArticleModel extends CommonScopeModel
         $articleInfo = self::select('article.*', 'article_extends.a_id', 'article_extends.intro', 'article_extends.keywords', 'article_extends.description', 'article_extends.content')
             ->join('article_extends','article.id','=','article_extends.a_id')
             ->where('article.id', $id)
+            ->where('status', self::STATUS_ACTIVE)
             ->get()
             ->toArray();
 
@@ -95,6 +135,22 @@ class ArticleModel extends CommonScopeModel
     }
 
     /**
+     * @desc 获取热点文章点击数排序
+     * @param $limit default 5
+     * @return array
+     */
+    public static function getHotArticle($limit = 5 )
+    {
+        return self::select('id', 'title', 'little_pic')
+            ->where('status', self::STATUS_ACTIVE)
+            ->limit($limit)
+            ->orderBy('hits','desc')
+            ->orderBy('id', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+    /**
      * @desc 通过栏目ID获取文章
      * @param arr $categoryIds
      * @param int $limit
@@ -102,7 +158,7 @@ class ArticleModel extends CommonScopeModel
      */
     public static function getArticleByCategoryIds($categoryIds, $limit = 5)
     {
-        return self::select('id','title','little_pic', )
+        return self::select('id','title','little_pic')
             ->whereIn('category_id', $categoryIds)
             ->where('status', self::STATUS_ACTIVE)
             ->limit($limit)
@@ -112,6 +168,7 @@ class ArticleModel extends CommonScopeModel
             ->toArray();
     }
 
+/********************************************［文章基本信息的设置]*************************************/
     /**
      * @desc 获取文章的自定义属性
      * @return array

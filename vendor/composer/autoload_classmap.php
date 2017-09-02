@@ -15,6 +15,7 @@ return array(
     'CreateCategoryTable' => $baseDir . '/database/migrations/2017_07_20_051929_create_category_table.php',
     'CreateFriendLinkTable' => $baseDir . '/database/migrations/2017_08_19_132437_create_friend_link_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreateUserInfoTable' => $baseDir . '/database/migrations/2017_08_29_032430_create_user_info_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'EntrustBase' => $baseDir . '/database/migrations/2016_01_23_031442_entrust_base.php',

@@ -12,6 +12,7 @@ namespace App\Logics;
 use App\Models\ArticleModel;
 use App\Models\ArticleExtendModel;
 use App\Tools\ToolArray;
+use App\Tools\ToolStr;
 use Log;
 
 class ArticleLogic extends BaseLogic
@@ -36,7 +37,52 @@ class ArticleLogic extends BaseLogic
     }
 
     /**
-     * @desc 获取文章详情
+     * @desc 通过栏目ID获取文章列表前台展示
+     * @param $categoryId int
+     * @param $size int
+     * @return array
+     */
+    public function getArticleListByCid($categoryId, $size)
+    {
+        if (empty($categoryId)){
+            return [];
+        }
+        if (!is_array($categoryId)){
+            $categoryId = [$categoryId];
+        }
+
+        $articleList = ArticleModel::getArticleByCid($categoryId, $size);
+
+        //格式化文章列表
+        $articleList = $this->formatArticleList($articleList);
+
+        return $articleList;
+    }
+
+    /**
+     * @desc 格式化文章列表
+     * @param $articleList
+     * @return array
+     */
+    public function formatArticleList($articleList)
+    {
+        if (empty($articleList)){
+            return [];
+        }
+
+        foreach($articleList['data'] as $key=>$article)
+        {
+            $articleList['data'][$key]['description'] = ToolStr::hideStr($article['content'],300, '...');
+            $articleList['data'][$key]['arc_link'] = url('/article/detail/'.$article['id']);
+            unset($articleList['data'][$key]['content']);
+            $articleList['data'][$key]['thumbNail'] = ($article['little_pic'] !='' && file_exists($_SERVER['DOCUMENT_ROOT'].$article['little_pic']) ) ? url($article['little_pic']) : asset('bjesa/images/no_image.png');
+        }
+
+        return $articleList;
+    }
+
+    /**
+     * @desc 获取文章详情By 文章ID
      * @param int $id
      * @return array
      */
@@ -91,6 +137,32 @@ class ArticleLogic extends BaseLogic
         return self::callSuccess($attributes, '文章创建成功');
     }
 
+    /**
+     * @desc 增加文章的点击数
+     * @param $id int
+     * @return array
+     */
+    public function addArticleHits($id)
+    {
+        if (empty($id)){
+            return self::callError('文章ID为空');
+        }
+
+        try{
+            $result = ArticleModel::addArticleHits($id);
+        }catch(\Exception $e){
+
+            $return['msg'] = $e->getMessage();
+
+            $return['code'] = $e->getCode();
+
+            Log::error('文章点击数更新失败', $return);
+
+            return self::callError($e->getMessage());
+        }
+        return self::callSuccess($result);
+
+    }
     /**
      * @desc 执行文章编辑操作
      * @param array $data
@@ -229,6 +301,18 @@ class ArticleLogic extends BaseLogic
 
         $list = ArticleModel::getArticleByFlag($flag, $limit);
         return $list;
+    }
+
+    /**
+     * @desc 获取热点文章
+     * @param $limit int
+     * @return array
+     */
+    public function getHotArticle($limit)
+    {
+        $result = ArticleModel::getHotArticle($limit);
+
+        return $result;
     }
 
     /**

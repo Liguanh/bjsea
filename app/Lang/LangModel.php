@@ -18,12 +18,13 @@ class LangModel
         ERROR_COMMON                                            = '操作失败',
         ERROR_USER_DECREASE_BALANCE                             = '账户余额扣款失败',
         ERROR_USER_INCREASE_BALANCE                             = '账户余额充值失败',
-        ERROR_IS_EMPTY                                          = '数据为空',
+        ERROR_IS_EMPTY                                          = '%s数据为空',
+
 
         /******************************************这里是分割线************************************************/
 
 
-        
+
         ERROR_END                                             = null;
 
 

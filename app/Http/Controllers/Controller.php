@@ -11,9 +11,24 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct()
+    {
+        $this->viewShare();
+    }
+
     public function getUserId()
     {
         return \Auth::guard('web')->user();
     }
 
+    /**
+     * @desc 设置视图共享数据
+     */
+    public function viewShare()
+    {
+        //网站栏目
+        $categoryLogic = new \App\Logics\CategoryLogic();
+        $category = $categoryLogic->getNavList();
+        view()->share('nav', $category);
+    }
 }

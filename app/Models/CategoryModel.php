@@ -16,14 +16,14 @@ class CategoryModel extends CommonScopeModel
 
 
     /**
-     * @desc 获取网站栏目by父ID
+     * @desc 获取网站栏目by父ID[管理后台列表]
      * @param $pid
      * @return mixed
      */
-    public static function getCategoryPid($pid)
+    public static function getCategoryByPid($pid)
     {
 
-        $return = self::select('id','parent_id','name','status','is_hidden','sort_num','created_at')
+        $return = self::select('id','parent_id','name','status','is_hidden','sort_num','created_at','is_url','http_url')
             ->where('parent_id', $pid)
             ->orderBy('sort_num', 'asc')
             ->get()
@@ -32,6 +32,35 @@ class CategoryModel extends CommonScopeModel
         return $return;
     }
 
+    /**
+     * @desc 获取网站前台菜单显示
+     * @param $pid int
+     * @return array
+     */
+    public static function getNavByPid($pid)
+    {
+        $return = self::select('id','parent_id','name','status','is_hidden','sort_num','created_at','is_url','http_url')
+            ->where('parent_id', $pid)
+            ->where('status', self::STATUS_ACTIVE)
+            ->where('is_hidden', self::IS_SHOW)
+            ->orderBy('sort_num', 'asc')
+            ->get()
+            ->toArray();
+
+        return $return;
+    }
+
+    /**
+     * @desc 获取文章栏目的父分类id
+     * @param $id
+     * @return int
+     */
+    public static function getCategoryPid($id)
+    {
+        return self::select('parent_id')
+            ->where('id', $id)
+            ->first();
+    }
 
     /**
      * @desc 获取网站栏目列表

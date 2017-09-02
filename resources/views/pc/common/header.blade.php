@@ -46,24 +46,21 @@
     <div class="bottom-header_menu">
         <div class="container">
             <!-- start h_menu4 -->
-<?php
-$categoryLogic = new App\Logics\CategoryLogic();
-$category = $categoryLogic->getNavList();
-?>
             <div class="h_menu4">
                 <a class="toggleMenu" href="">Menu</a>
                 <ul class="nav">
-                    <li class="active"><a href="/">首页</a></li>
-                    @foreach($category as $key=>$value)
-                        <li><a href="{{url('/')}}" class="root" target="_blank">{{$value['name']}}</a>
+                    <li class="active"><a href="{{url('/')}}">首页</a></li>
+                    @foreach($nav as $key=>$value)
+                        <li><a href="{{$value['typeLink']}}" class="active" target="_blank">{{$value['name']}}</a>
+                         @if(!empty($value['son_list']))
                             <ul>
                                 @foreach($value['son_list'] as $id=>$son)
-                                    <li><a href="" target="_blank">{{$son['name']}}</a></li>
+                                    <li><a href="{{$son['typeLink']}}" target="_blank">{{$son['name']}}</a></li>
                                 @endforeach
                             </ul>
+                          @endif
                         </li>
                     @endforeach
-                    <li class="active"><a href="{dede:global.cfg_cmsurl/}/a/xiehuijieshao/2015/0613/18.html" target="_blank">联系我们</a></li>
                 </ul>
                 <script type="text/javascript" src="{{asset('bjesa/js/nav.js')}}"></script>
 
