@@ -34,7 +34,7 @@ function run_php()
     args="$args --volumes-from $busybox_container"
     args="$args --link $redis_container"
 
-    local cmd='bash docker.sh _run_cmd_php_container'
+    local cmd='bash manager.sh _run_cmd_php_container'
     run_cmd "docker run -d $args -h $php_container --name $php_container $php_image $cmd"
 }
 
@@ -58,7 +58,7 @@ function _send_cmd_to_php_container()
 function _run_cmd_php_container()
 {
     run_cmd '/usr/sbin/rsyslogd'
-    run_cmd 'bash docker/crontab/start-crontab.sh'
+    run_cmd 'bash $project_devops_dir/crontab/start-crontab.sh'
     if [ -f /var/log/php/php-fpm-error.log ]; then
         run_cmd 'touch /var/log/php/php-fpm-error.log'
     fi

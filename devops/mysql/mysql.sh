@@ -10,7 +10,7 @@ function run_mysql()
 
     local mysql_log_dir="$project_devops_runtime_dir/mysql/"
 
-    local args="--restart always"
+    local args="--restart=always"
     # data
     args="$args -v $mysql_data_dir/mysql-data:/var/lib/mysql"
 
@@ -29,7 +29,7 @@ function run_mysql()
     args="$args -p $mysql_port:3306"
 
     # do not use password
-    args="$args -e MYSQL_ROOT_PASSWORD='123456' -e MYSQL_ALLOW_EMPTY_PASSWORD='yes'"
+    args="$args -e MYSQL_ROOT_PASSWORD='' -e MYSQL_ALLOW_EMPTY_PASSWORD='yes'"
     run_cmd "docker run -d $args --name $mysql_container $mysql_image"
 
     _wait_mysql

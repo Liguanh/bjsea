@@ -20,14 +20,21 @@ source "$project_devops_dir/base.sh"
 #基本的配置内容获取
 app_name=$(read_kv_config  bjesa_config APP_NAME) #项目名称
 app_env=$(read_kv_config bjesa_config APP_ENV) #项目环境
+
+db_host=$(read_kv_config bjesa_config DB_HOST) #mysql主机地址
+db_database=$(read_kv_config bjesa_config DB_DATABASE) #mysql数据库名
+db_user=$(read_kv_config bjesa_config DB_USER) #mysql数据库用户名
+db_pwd=$(read_kv_config bjesa_config DB_PASSWORD) #mysql数据库用户名
+db_prefix=$(read_kv_config bjesa_config DB_PREFIX) #mysql数据库用户名
 mysql_port=$(read_kv_config bjesa_config MYSQL_PORT) #数据库mysql端口号
+
 nginx_port=$(read_kv_config bjesa_config NGINX_PORT) #nginx端口号
-php_fpm_port=$(read_kv_config bjeas_config PHP_FPM_PORT) #php-fpm的端口号
-web_site=$(read_kv_config bjeas_config WEB_SITE) #网站站点设置域名
+php_fpm_port=$(read_kv_config bjesa_config PHP_FPM_PORT) #php-fpm的端口号
+web_site=$(read_kv_config bjesa_config APP_URL_PC) #网站站点设置域名
+cache_driver=$(read_kv_config bjesa_config CACHE_DRIVER) #网站缓存驱动设置
 
 #应用的前缀名称
 app="$developer-$app_name"
-
 
 #定义要拉取的镜像文件
 busybox_image=hoseadevops/own-busybox
@@ -71,11 +78,39 @@ source $project_devops_nginx_dir/nginx.sh
 function init_app()
 {
     clean_all
+    build_config
 }
 
 #创建新应用
 function new_app()
 {
+    run_container
+    laravel_init
+    import_mysql_data
+
+}
+
+#执行migrate信息for laravel
+function laravel_init()
+{
+    local cmd="cd $project_dir"
+    cmd="$cmd; php artisan migrate --force"
+    cmd="$cmd; php artisan db:seed --force"
+    _send_cmd_to_php_container "$cmd"
+}
+
+#初始化数据基本数据
+function import_mysql_data()
+{
+    local cmd='cd devops/mysql/mysql-import/; for file in `ls *`; do mysql -uroot --default-character-set=utf8 bjsea_run < $file; done'
+
+    _run_mysql_command_in_client "$cmd"
+}
+
+#重启
+function restart()
+{
+    clean_container
     run_container
 }
 
@@ -94,7 +129,7 @@ function clean_all()
 #清理容器相关
 function clean_container()
 {
-    rm_syslog
+    rm_syslogng
     rm_busybox
     rm_mysql
     rm_redis
@@ -128,31 +163,104 @@ function clean_persistent()
 #创建配置相关文件
 function build_config()
 {
+    write_persistent_config
+    recursive_mkdir "$project_devops_persistent_dir/nginx-fpm-config"
+    recursive_mkdir "$project_devops_persistent_dir/mysql/data"
+
+    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_nginx_dir/nginx-fpm-config-template/fastcgi $project_devops_persistent_dir/nginx-fpm-config/fastcgi"
+    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_nginx_dir/nginx-fpm-config-template/hosea.conf $project_devops_persistent_dir/nginx-fpm-config/hosea.conf"
+    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_php_dir/config-template/.user.ini $project_dir/public/.user.ini"
+    run_cmd "mv .env .env_bak"
+    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_dir/.env.example $project_dir/.env"
+
+
+    cat $project_devops_persistent_dir/config
+    cat $project_devops_persistent_dir/nginx-fpm-config/hosea.conf
+}
+
+#创建个人基本配置信息
+function write_persistent_config()
+{
 	echo php_container=$php_container > $project_devops_persistent_dir/config
     echo php_fpm_port=$php_fpm_port >> $project_devops_persistent_dir/config
     echo dk_nginx_domain=$web_site >> $project_devops_persistent_dir/config
     echo dk_nginx_root=$project_dir/public >> $project_devops_persistent_dir/config
     echo open_basedir=$project_dir:/tmp/:/proc/ >> $project_devops_persistent_dir/config
 
-    recursive_mkdir "$project_devops_persistent_dir/nginx-fpm-config"
-    recursive_mkdir "$project_devops_persistent_dir/mysql/data"
-
-    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_nginx_dir/nginx-fpm-config-template/fastcgi $project_devops_persistent_dir/nginx-fpm-config/fastcgi"
-    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_nginx_dir/nginx-fpm-config-template/hosea.conf $project_devops_persistent_dir/nginx-fpm-config/hosea.conf"
-    run_cmd "replace_template_key_value $project_devops_persistent_dir/config $project_devops_php_dir/config-template/.user.ini $project_path/public/.user.ini"
-
-    cat $project_devops_persistent_dir/config
-    cat $project_devops_persistent_dir/nginx-fpm-config/hosea.conf
+    echo app_env=$app_env >> $project_devops_persistent_dir/config
+    echo db_host=$db_host >> $project_devops_persistent_dir/config
+    echo mysql_port=$mysql_port >> $project_devops_persistent_dir/config
+    echo db_database=$db_database >> $project_devops_persistent_dir/config
+    echo db_user=$db_user >> $project_devops_persistent_dir/config
+    echo db_pwd=$db_pwd >> $project_devops_persistent_dir/config
+    echo db_prefix=$db_prefix >> $project_devops_persistent_dir/config
+    echo cache_driver=$cache_driver >> $project_devops_persistent_dir/config
 }
 
 #运行相关的容器
-run_container()
+function run_container()
 {
-    run_syslog
+    run_syslogng
     run_busybox
     run_mysql
     run_redis
     run_php
     run_nginx_fpm
 }
+
+#帮助信息
+function help()
+{
+cat <<EOF
+    Usage:sh manager.sh [options]
+
+        Valid options are:
+
+        init_app
+        new_app
+        laravel_init
+        import_mysql_data
+        build_config
+        run_container
+
+        clean_all
+        clean_container
+        clean_runtime
+        clean_persistent
+
+        run_syslogng
+        rm_syslogng
+        restart_syslogng
+
+        run_busybox
+        rm_busybox
+
+        run_mysql
+        rm_mysql
+        restart_mysql
+        to_mysql
+
+        run_redis
+        to_redis
+        rm_redis
+        restart_redis
+
+        run_php
+        rm_php
+        to_php
+
+        _run_cmd_php_container
+
+        run_nginx_fpm
+        rm_nginx_fpm
+        restart_nginx
+        
+        help show this message
+EOF
+}
+
+action=${1:-help}
+ALL_COMMANDS="init_app new_app laravel_init import_mysql_data build_config run_container clean_all clean_container clean_runtime clean_persistent run_syslogng rm_syslog restart_syslogng run_busybox rm_busybox run_mysql rm_mysql restart_mysql to_mysql run_redis to_redis rm_redis restart_redis run_php rm_php to_php _run_cmd_php_container run_nginx_fpm rm_nginx_fpm restart_nginx"
+list_cmd ALL_COMMANDS "$action" || action=help
+$action "$@"
 
