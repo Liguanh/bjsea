@@ -1,36 +1,22 @@
-# Larval 5.2 Rbac 示例
+###北京极限运动协会实例
 
-## 说明
+####使用环境和软件
+- Laravel5.2
+- docker17.06 for Mac
+- RBAC后台权限管理
+- devops
 
-这只是一个基于Laravel5.2 和 [zizaco/entrust](https://github.com/Zizaco/entrust)实现的RBAC的简单示例应用，通过路由名来控制权限，当然你也可以扩展一下应用到实际项目中。
-
-
-
-## 截图
-
-## ![laravel rbac](http://7bv7rl.com1.z0.glb.clouddn.com/536EDDB1-A462-4E60-A912-6429340BE429.png)
-
-
-
-![rbac](http://7bv7rl.com1.z0.glb.clouddn.com/4EFB5F11-E0AD-46ED-A800-7D07A4587924.png)
+####说明
+>这是一个基于laravel5.2框架的企业站，主要是服务是北京极限运动协会，包括前端文章展示以及管理后台的文章管理, 在此基础上集成了docker，执行脚本命令后可以在本地拉取容器，主要包括PHP7，nginx-fpm, mysql5.7,redis....
+实现简单快捷的环境搭建，减少了本地实体环境搭建浪费的时间问题。
 
 
+#### docker容器环境的部署安装步骤
 
-![rbac](http://7bv7rl.com1.z0.glb.clouddn.com/A0BBACE4-B4D1-4FCF-AE69-B7F0014495E9.png)
-
-
-## docker安装
-
-- git clone 到本地
-- 执行 `sh manage.sh init_dev`
-- 执行 `sh manage.sh run`
-- 执行成功后,访问界面输出的url地址即可
-
-
-## 本地安装
-
-- git clone 到本地
-- 配置 **.env** 中数据库连接信息
-- 执行 `php artisan db:seed`
-- 执行 `php artisan serve`
+- 执行 `sh manager.sh clean_all` 清除当前容器
+- 执行 `sh manage.sh init_app` 初始化当前环境
+- 执行 `sh manager.sh new_app` 拉取容器镜像 
+- 执行成功后,按照访问界面输出的url地址即可
+- 数据的.env已经配置完毕了
 - 默认后台账号:admin@admin.com 密码:admin
+
