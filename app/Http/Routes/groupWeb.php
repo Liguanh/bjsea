@@ -8,7 +8,11 @@
  */
 
 Route::group(['middleware'=>['web'], 'namespace'=>'Pc', 'prefix'=>'/'], function(){
-    Route::auth();
+//    Route::auth();
+    //
+    Route::get('/test', function(){
+        return 'test';
+    });
 
     Route::get('/', 'HomeController@index');//网站首页
 

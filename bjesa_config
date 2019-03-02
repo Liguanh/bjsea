@@ -10,7 +10,7 @@ MYSQL_PORT=33602
 
 NGINX_PORT=8089
 PHP_FPM_PORT=9000
-APP_URL_PC=test.bjesa.com
+APP_URL_PC=test.bjesa.com.cn
 
 CACHE_DRIVER=redis
 

@@ -6,6 +6,7 @@ set -e
 #-------------------
 #项目目录
 project_dir=$(cd $(dirname $0);pwd -P)
+echo $project_dir
 #项目devops的目录
 project_devops_dir="$project_dir/devops"
 #开发者
@@ -263,4 +264,3 @@ action=${1:-help}
 ALL_COMMANDS="init_app new_app laravel_init import_mysql_data build_config run_container clean_all clean_container clean_runtime clean_persistent run_syslogng rm_syslog restart_syslogng run_busybox rm_busybox run_mysql rm_mysql restart_mysql to_mysql run_redis to_redis rm_redis restart_redis run_php rm_php to_php _run_cmd_php_container run_nginx_fpm rm_nginx_fpm restart_nginx"
 list_cmd ALL_COMMANDS "$action" || action=help
 $action "$@"
-
